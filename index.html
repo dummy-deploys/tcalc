@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Caculator</title>
+
+    <style>
+        body {
+            background-color: aliceblue;
+        }
+
+        h1 {
+            color: blue;
+        }
+
+        @media only screen and (max-width: 400px) {
+            .input_container {
+                width: 90% !important;
+                top: 10% !important;
+            }
+
+            h3 {
+                float: none !important;
+            }
+        }
+
+        .input_container {
+            width: 70%;
+            margin: auto;
+            padding: 20px 10px;
+            border: 2px solid blue;
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            -ms-transform: translateX(-50%);
+            transform: translateX(-50%);
+        }
+
+        .input-group {
+            margin-top: 20px;
+        }
+
+        input {
+            padding: 7px 7px;
+            width: 90% !important;
+            -webkit-appearance: textfield;
+            -moz-appearance: textfield;
+            display: block;
+            margin-top: 5px;
+            font-size: large;
+        }
+
+        label {
+            font-size: large;
+            color: rgb(139, 0, 0);
+            font-weight: 700;
+        }
+
+        button {
+            color: white;
+            background-color: rgb(69, 189, 69);
+            border: 1px solid white;
+            font-size: x-large;
+            padding: 7px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline;
+        }
+
+        h3 {
+            float: right;
+            color: red;
+        }
+
+        span {
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+        <div class="input_container">
+            <h1>Time Calculator</h1>
+            <hr>
+
+            <div class="input-group">
+                <label for="date_input">Choose the date and time:</label>
+                <input type="datetime-local" id="date_input">
+            </div>
+
+            <div class="input-group">
+                <label for="date_input">Write the number of negative hours:</label>
+                <input type="number" min="1" id="hours" value="1">
+            </div>
+
+            <div class="input-group">
+                <button id="calc">Calculate</button>
+                <h3 id="result">Result:</h3>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        var now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('date_input').value = now.toISOString().slice(0, 16);
+
+        let result = document.querySelector('#result');
+        let calc = document.querySelector('#calc');
+        calc.addEventListener('click', () => {
+            const date_input = document.querySelector('#date_input').value;
+            const hours = document.querySelector('#hours').value;
+
+            const date = new Date(date_input).getTime();
+            const hours_in_millesecnd = (hours * 60 * 60 * 1000);
+            const new_date = new Date((date - hours_in_millesecnd));
+            options = {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                hour12: true
+            };
+            result.innerHTML =
+                `Result: <span>${new Intl.DateTimeFormat('en-US', options).format(new Date(new_date))}<span>`;
+
+        });
+    </script>
+
+</body>
+
+</html>
